@@ -1,0 +1,246 @@
+<div class="agents-container container" id="main-container">
+    <!-- <h1 align="center" class="mb-5">
+        Agents
+    </h1> -->
+    <div class="header">
+        <div>
+            <button type="button" class="button" (click)="onOpenModal(null, 'add')">
+                Add Agent
+            </button>
+        </div>
+
+        <form class="d-flex">
+            <input #search type="search" class="form-control form-input" id="search" placeholder="Search Agents"
+                (keyup.enter)="doSearch(search.value)">
+            <!-- <button class="btn btn-secondary" type="submit" (click)="doSearch(search.value)">
+               Search
+            </button> -->
+        </form>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                <table class="table project-list-table table-nowrap align-middle table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="ps-4" style="width: 50px;">
+                                <div class="form-check font-size-16"><input type="checkbox" class="form-check-input"
+                                        id="contacusercheck" /><label class="form-check-label"
+                                        for="contacusercheck"></label></div>
+                            </th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+
+                            <th scope="col">Created At</th>
+                            <th scope="col">SalesPoint</th>
+                            <th scope="col" style="width: 200px;">Operations</th>
+                        </tr>
+                    </thead>
+                    @for (agent of agents; track agent.id) {
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="ps-4">
+                                <div class="form-check font-size-16"><input type="checkbox" class="form-check-input"
+                                        id="contacusercheck1" /><label class="form-check-label"
+                                        for="contacusercheck1"></label></div>
+                            </th>
+                            <td style="width: 200px;">
+                                <!-- <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""
+                                        class="avatar-sm rounded-circle me-2" /> -->
+                                {{agent.lastName}}
+                                {{agent.firstName}}
+                            </td>
+                            <td style="width: 150px;">{{agent.email}}</td>
+                            <td style="width: 150px;">{{agent.phoneNumber}}</td>
+                            <td style="width: 150px;">{{agent.createdAt}}</td>
+                            <td style="width: 150px;"><span
+                                    class="badge badge-soft-success mb-0">{{agent.salesPoint.name}}</span></td>
+                            <td>
+                                <ul class="list-inline mb-0">
+                                    <li class="list-inline-item">
+                                        <a title="View" class="px-2 text-primary"
+                                        (click)="onOpenModal(agent, 'view')"
+                                        ><fa-icon [icon]="faEye"></fa-icon></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a title="Delete" class="px-2 text-danger"
+                                            (click)="onOpenModal(agent, 'delete')">
+                                            <fa-icon [icon]="faTrash"></fa-icon></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a title="edit" class="px-2 text-success"
+                                            (click)="onOpenModal(agent, 'edit')"><fa-icon
+                                                [icon]="faPenToSquare"></fa-icon></a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- view Modal -->
+    <div class="modal fade" id="viewModal" data-bs-keyboard="false" tabindex="-1"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg bg-light " style="border-radius:10px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agent Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class=" container ">
+                        <div class="row m-1 g-3">
+                            <div class="col">
+                                <span>First Name</span><br>
+                                {{agentToEdit?.firstName}}
+                            </div>
+                            <div class="col">
+                                <span>Last Name</span><br>
+                                {{agentToEdit?.lastName}}
+                            </div>
+                        </div>
+                        <div class="row m-1 g-3">
+                            <div class="col">
+                                <span>Phone</span><br>
+                                {{agentToEdit?.phoneNumber}}
+                            </div>
+                            <div class="col">
+                                <span>Email</span><br>
+                                {{agentToEdit?.email}}
+                            </div>
+                        </div>
+                        <div class="row m-1 g-3">
+                            <div class="col">
+                                <span>SalesPoint</span><br>
+                                {{agentToEdit?.salesPoint?.name}}
+                            </div>
+                            <div class="col">
+                                <span>Created At</span><br>
+                                {{agentToEdit?.createdAt}}
+                            </div>
+                        </div>
+                        <div class="row mt-3 g-3 d-flex justify-start">
+                                <button type="submit" class="button" style="width: 30%;"
+                                    data-bs-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog bg-light" style="border-radius:10px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Agent</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    You are about to delete Agent <strong>{{agentToDelete?.lastName }}
+                        {{agentToDelete?.firstName}}</strong>
+                    <br>
+                    Are you sure ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="button" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="button btn-danger" (click)="deleteAgent(agentToDelete)"
+                        data-bs-dismiss="modal">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- add Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="AddModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-labelledby="AddModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+
+                    <form class="text-center" #addForm="ngForm" class="add-form">
+                        <!-- <a class="logo  mb-4" data-bs-dismiss="modal"><img src="" style="width:90%" /></a> -->
+                        <p class="form-title mb-3 mt-2">ADD AGENT</p>
+
+                        <input type="text" class="form-control mb-3 form-input" placeholder="First Name" ngModel
+                            name="firstName" required />
+                        <input type="text" class="form-control mb-3 form-input" placeholder="Last Name" ngModel
+                            name="password" required />
+                        <input type="text" class="form-control mb-3 form-input" placeholder="Phone Number" ngModel
+                            name="phoneNumber" required>
+
+                        <input type="email" class="form-control mb-3 form-input" placeholder="E-mail" ngModel
+                            name="email" required />
+                        <select #salespoint class="form-control form-input mb-3" ngModel name="salesPoint" required>
+                            <option value="" disabled selected hidden>SaleaPoint ..</option>
+                            @for (salespoint of salesPoint; track salespoint.id) {
+                            <option [value]="salespoint.id">
+                                {{salespoint.name}}
+                            </option>
+                            }
+                        </select>
+                        <button color="info" class="w-100 mb-2 button" type="button" (click)="addAgent(addForm)"
+                            [disabled]="addForm.invalid" data-bs-dismiss="modal">
+                            Add
+                        </button>
+                        <button type="button " data-bs-dismiss="modal" aria-label="Close" class="button mt-1"
+                            style="width: min-content;">Close</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- update Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="updateModal" data-bs-backdrop="static"
+        data-bs-keyboard="false" aria-labelledby="AddModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+
+                    <form class="text-center" #updateForm="ngForm" class="add-form">
+                        <!-- <a class="logo  mb-4" data-bs-dismiss="modal"><img src="" style="width:90%" /></a> -->
+                        <p class="form-title mb-3 mt-2">UPDATE AGENT</p>
+                        <input type="hidden" class="form-control" name="id" ngModel="{{agentToEdit?.id}}">
+                        <input type="text" class="form-control mb-3 form-input" placeholder="First Name"
+                            ngModel="{{agentToEdit?.firstName}}" name="firstName" required />
+                        <input type="text" class="form-control mb-3 form-input" placeholder="Last Name"
+                            ngModel="{{agentToEdit?.lastName}}" name="password" required />
+                        <input type="text" class="form-control mb-3 form-input" placeholder="Phone Number"
+                            ngModel="{{agentToEdit?.phoneNumber}}" name="phoneNumber" required>
+
+                        <input type="email" class="form-control mb-3 form-input" placeholder="E-mail"
+                            ngModel="{{agentToEdit?.email}}" name="email" required />
+                            
+                        <select class="form-control form-input mb-3" ngModel="{{agentToEdit?.salesPoint?.name}}"
+                            name="salesPoint" required>
+                            <option value="" disabled selected hidden>SalesPoint..</option>
+                            @for (salespoint of salesPoint; track salespoint.id) {
+                            <option [value]="salespoint.id">
+                                {{salespoint.name}}
+                            </option>
+                            }
+                        </select>
+
+                        <button color="info" class="mb-2 button w-100" type="button" (click)="updateAgent(updateForm.value)"
+                            [disabled]="updateForm.invalid" data-bs-dismiss="modal">
+                            Update
+                        </button>
+                        <button type="button " data-bs-dismiss="modal" aria-label="Close" class="button mt-1"
+                            style="width: min-content;">Close</button>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

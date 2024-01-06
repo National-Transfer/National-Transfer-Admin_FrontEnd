@@ -1,0 +1,47 @@
+<aside class="sidebar">
+    <a class="logo" href="#">BackOffice</a>
+
+    <div class="side-wrapper">
+        <div class="side-title">MENU</div>
+        <div class="side-menu">
+            <a [class.is-active]="activeLink === 'home'" class="sidebar-link" (click)="home()">
+                <fa-icon  [class.icon-active]="activeLink ==='home'"  class="icon" [icon]="faHome"></fa-icon>
+                <span>Home</span>
+            </a>
+            <a [class.is-active]="activeLink === 'agents'" class="sidebar-link" (click)="agents()">
+                <fa-icon  [class.icon-active]="activeLink ==='agents'"  class="icon" [icon]="faPeopleGroup"></fa-icon>
+                <span>Agents</span>
+            </a>
+            <a [class.is-active]="activeLink === 'clients'" class="sidebar-link" (click)="clients()">
+                <fa-icon [class.icon-active]="activeLink ==='clients'" class="icon" [icon]="faUserGroup"></fa-icon>
+                <span>Clients</span>
+            </a>
+        </div>
+     
+    </div>
+    <div class="side-wrapper">
+        <!-- <div class="side-title">###</div> -->
+        <div class="side-menu">
+            <a [class.is-active]="activeLink === 'transfers'" class="sidebar-link" (click)="transfers()" >
+                <fa-icon [class.icon-active]="activeLink ==='transfers'" class="icon" [icon]="faMoneyBillTransfer"></fa-icon>
+                <span>Transfers</span>
+            </a>
+            <a [class.is-active]="activeLink === 'salesPoints'" class="sidebar-link" (click)="salesPoints()" >
+                <fa-icon [class.icon-active]="activeLink ==='salesPoints'" class="icon" [icon]="faBuildingColumns"></fa-icon>
+                <span>SalesPoints</span>
+            </a>
+            <a [class.is-active]="activeLink === 'profile'" class="sidebar-link" (click)="profile()">
+                <fa-icon  [class.icon-active]="activeLink ==='profile'"  class="icon" [icon]="faUser"></fa-icon>
+                <span>Profile</span>
+                
+            </a>
+        </div>
+        
+    </div>
+    <div style="position: absolute; bottom:0;">
+        <a  class="sidebar-link" (click)="logout()">
+            <fa-icon  class="icon" [icon]="faRightFromBracket"></fa-icon>
+            <span>LogOut</span>
+        </a>
+    </div>
+</aside>
