@@ -3,6 +3,6 @@ export interface SalesPoint {
     name: string;
     phoneNumber : string;
     address : string;
-    dailyTransferLimit: number;
-    createdAt:Date;
+    dailyTransferLimit?: number;
+    createdAt?:Date;
 }
