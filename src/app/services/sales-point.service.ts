@@ -31,12 +31,14 @@ export class SalesPointService {
         })
       );
 
+
   saveSalesPoint$ = (salesPoint: SalesPoint) => <Observable<SalesPoint>>
-    this.http.post<SalesPoint>(`${this.apiUrl}`, salesPoint, httpOptions)
+    this.http.post<SalesPoint>(this.apiUrl, salesPoint, httpOptions)
       .pipe(
         tap(console.log),
         catchError(() => {
-          return of('error saving agent')
+          console.log(this.apiUrl);
+          return of ('error saving agent')
         })
       );
 

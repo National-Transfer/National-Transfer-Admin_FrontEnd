@@ -2,7 +2,7 @@
     <!-- <p-toast></p-toast> -->
     <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
-            <p-button pRipple label="Add Sales Point" icon="pi pi-plus" class="p-button-success mr-2" (click)="newSalesPoint()"></p-button>
+            <p-button pRipple label="Add Sales Point" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></p-button>
         </ng-template>
     </p-toolbar>
     <p-table [value]="salesPoints" [tableStyle]="{'min-width': '60rem'}" editMode="row" [rowHover]="true">
@@ -56,7 +56,7 @@
                 <td><p-tag [value]="spoint.dailyTransferLimit" [severity]="getSeverity(spoint.dailyTransferLimit)"></p-tag></td>
                 <td>{{spoint.createdAt | date}}</td>
                 <td>
-                    <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success mr-2" (click)="saveSalesPoint()"></button>
+                    <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success mr-2" (click)="saveSalesPoint(spoint)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteSalesPoint(spoint.id)"></button>
                 </td>
             </tr>
@@ -86,9 +86,15 @@
             <input type="text" pInputText id="phone" [(ngModel)]="salesPoint.phoneNumber" required autofocus />
         </div>
 
+        <div class="field">
+            <label for="transferlimit">Daily Transfer Limit : </label>
+            <input type="text" pInputText id="phone" [(ngModel)]="salesPoint.dailyTransferLimit" required autofocus />
+        </div>
+        
+
     </ng-template>
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveSalesPoint()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveFromModal()"></button>
     </ng-template>
 </p-dialog>

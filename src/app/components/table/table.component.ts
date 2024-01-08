@@ -13,6 +13,8 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { error } from 'console';
 
 
 @Component({
@@ -21,13 +23,15 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
   imports: [TableModule, ButtonModule, RatingModule, TagModule, CommonModule, ToastModule, ToolbarModule, DialogModule, InputTextModule, FormsModule, InputTextareaModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
-  providers: [MessageService]
+  providers: [MessageService, InputNumberModule]
 })
 export class TableComponent implements OnInit {
 
   private salesPointService : SalesPointService = inject(SalesPointService);
+  private messageService : MessageService = inject(MessageService);
 
   productDialog: boolean = false;
+  value: number = 20000;
   salesPoint!: SalesPoint;
   salesPoints!: SalesPoint[];
   submitted: boolean = false;
@@ -35,42 +39,14 @@ export class TableComponent implements OnInit {
     constructor() {}
 
     ngOnInit() {
-        this.salesPointService.getAllSalesPoints$.subscribe((data) => {
-            this.salesPoints = data;
-        });
-      //   this.salesPoints = [
-      //     {
-      //         id: "1",
-      //         name: "Wafa Cash",
-      //         phoneNumber: "123-456-7890",
-      //         address: "123 Apple St, Fruitville",
-      //         dailyTransferLimit: 8000,
-      //         createdAt: new Date('2024-01-01')
-      //     },
-      //     {
-      //         id: "2",
-      //         name: "Cash Plus",
-      //         phoneNumber: "234-567-8901",
-      //         address: "456 Banana Ave, Berrytown",
-      //         dailyTransferLimit: 5000,
-      //         createdAt: new Date('2024-01-02')
-      //     },
-      //     {
-      //         id: "3",
-      //         name: "Western Union",
-      //         phoneNumber: "345-678-9012",
-      //         address: "789 Cherry Blvd, Meloncity",
-      //         dailyTransferLimit: 1500,
-      //         createdAt: new Date('2024-01-03')
-      //     },
-      //     {
-      //         name: "Money Gram",
-      //         phoneNumber: "456-789-0123",
-      //         address: "012 Date Way, Grapeville",
-      //         dailyTransferLimit: 2500,
-      //         createdAt: new Date('2024-01-04')
-      //     }
-      // ];
+        this.loadSalesPoints();
+    }
+
+    loadSalesPoints(){
+      this.salesPointService.getAllSalesPoints$.subscribe((data) => {
+        this.salesPoints = data;
+    });
+
     }
 
     getSeverity(limit: number) {
@@ -86,22 +62,57 @@ export class TableComponent implements OnInit {
 
 
     deleteSalesPoint(id: string){
-        this.salesPointService.deleteSalesPoint$(id).subscribe();
+      this.salesPointService.deleteSalesPoint$(id).subscribe(
+        response => {
+          this.loadSalesPoints();
+          this.messageService.add({severity: 'success', summary: 'Success', detail: 'Sales point deleted'});
+        },
+        error => {
+          this.messageService.add({severity: 'error', summary: 'Error', detail: 'Deletion failed'});
+        }
+      );
     }
 
     hideDialog(){
-      
+      this.productDialog = false;
+      this.submitted = false;
     }
 
-    saveSalesPoint(){
-      
+    saveSalesPoint(spoint : SalesPoint){
+      if (spoint.id){
+        this.salesPointService.updateSalespoint$(spoint).subscribe(response => {
+          //this.loadSalesPoints();
+          this.messageService.add({severity: 'success', summary: 'Success', detail: 'Sales point updated'});
+        },
+        error => {
+          this.messageService.add({severity: 'error', summary: 'Error', detail: 'Update failed'});
+        })
+      } else {
+        this.salesPointService.saveSalesPoint$(spoint).subscribe(
+          response => {
+            //this.loadSalesPoints();
+            this.messageService.add({severity: 'success', summary: 'Success', detail: 'Sales point added'});
+          },
+          error => {
+            this.messageService.add({severity: 'error', summary: 'Error', detail: 'Addition failed'});
+          }
+        );
+      }
+      this.hideDialog();
     }
 
-    newSalesPoint(){
+    saveFromModal(){
+      this.saveSalesPoint(this.salesPoint);
+    }
+
+
+    openNew(){
       this.salesPoint = {name : '', address : '', phoneNumber : ''};
       this.submitted = false;
       this.productDialog = true;
     }
+      
+    }
 
+    
 
-}
