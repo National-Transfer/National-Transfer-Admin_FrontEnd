@@ -1,5 +1,8 @@
 export interface Account {
-    id?: string;
+    accountCode?: string;
     balance:number ;
     ownerId:string;
+    annualAmountTransfer : number;
+    createdAt  : Date ;
+    accountType : string;
 }

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { Agent } from '../interfaces/agent';
+import { environment } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -16,7 +17,8 @@ export class AgentService {
 
   private http: HttpClient = inject(HttpClient);
 
-  private readonly apiUrl: string = 'http://agent-service/api/v1/agents';
+  private readonly apiUrl: string = environment.redirectUri + '/agency-service/api/v1/agents';
+
 
   constructor() { }
 
@@ -40,7 +42,7 @@ export class AgentService {
       );
 
   updateAgent$ = (agent: Agent) => <Observable<Agent>>
-    this.http.put<Agent>(`${this.apiUrl}`, agent, httpOptions)
+    this.http.put<Agent>(`${this.apiUrl}/${agent.id}`, agent, httpOptions)
       .pipe(
         tap(console.log),
         catchError(() => {
@@ -79,4 +81,12 @@ export class AgentService {
         })
       );
 
+  getAgentById$ = (agentId: string) => <Observable<Agent>>
+    this.http.get<Agent>(`${this.apiUrl}/${agentId}`)
+      .pipe(
+        tap(console.log),
+        catchError(() => {
+          return of('error getting agent')
+        })
+      );
 }

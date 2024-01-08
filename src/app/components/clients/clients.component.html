@@ -8,7 +8,7 @@
 
         <form class="d-flex">
             <input #myInput class="form-control form-input" type="search" placeholder="Search Clients"
-                aria-label="Search">
+                aria-label="Search"  (keyup.enter)="doSearch(myInput.value)">
 
         </form>
     </div>
@@ -17,10 +17,10 @@
             <thead>
                 <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Phone Number</th>
+                    <th scope="col">Phone</th>
                     <th scope="col">Email</th>
                     <th scope="col">Cin</th>
-                    <th scope="col">Account Number</th>
+                    <th scope="col">Balance (DH)</th>
                     <th scope="col" class="item">Update</th>
                     <th scope="col" class="item">Delete</th>
                     <th scope="col" class="item">View</th>
@@ -30,11 +30,11 @@
             @for (client of clientsResponse; track client.id) {
             <tbody>
                 <tr>
-                    <!-- <td>{{client.}}</td> 
-                    <td></td>
-                    <td><span class="badge badge-soft-primary mb-0"></span></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{client?.title}} {{client?.firstName}}</td>
+                    <td>{{client?.phoneNumber}}</td>
+                    <td><span class="badge badge-soft-primary mb-0">{{client?.email}}</span></td>
+                    <td>{{client?.identityNumber}}</td>
+                    <td>{{client?.account?.balance}} DH</td>
                     <td class="item"><a (click)="onOpenModal(client,'edit')" class="px-2 text-success"><fa-icon
                                 class="update" [icon]="faPenToSquare"></fa-icon></a>
                     </td>
@@ -43,10 +43,315 @@
                     </td>
                     <td class="item"><a (click)="onOpenModal(client,'view')" class="px-2 text-info"><fa-icon
                                 class="delete" [icon]="faEye"></fa-icon></a>
-                    </td> -->
+                    </td>
                 </tr>
             </tbody>
             }
         </table>
     </div>
+
+
+    <!-- add Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="AddModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-labelledby="AddModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="text-center" #addForm="ngForm" class="add-form">
+                        <!-- <a class="logo  mb-4" data-bs-dismiss="modal"><img src="" style="width:90%" /></a> -->
+                        <p class="form-title mb-3 mt-2 text-center">ADD CLIENT</p>
+                        <div class="card-body">
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+
+                                    <select class="mb-1 form-input" ngModel name="title" required>
+                                        <option value="" disabled selected hidden>Choose Title...</option>
+                                        <option value="Mr">Mr</option>
+                                        <option value="Mme">Mme</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="Full Name" class="form-control mb-1 form-input"
+                                        ngModel name="firstName" required>
+                                </div>
+                            </div>
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+                                    <select #identityType class="mb-1 form-input" ngModel name="identityType" required>
+                                        <option value="" disabled selected hidden>Identity Type...</option>
+                                        <option value="Cin">Cin</option>
+                                        <option value="Passport">Passport</option>
+                                    </select>
+
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="Identity Number"
+                                        class="form-control mb-1 form-input" ngModel name="identityNumber" required>
+
+                                </div>
+                            </div>
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+                                    <label>Identity Validity</label>
+
+                                    <input type="date" placeholder="Identity Validity"
+                                        class="form-control mb-1 form-input" ngModel name="identityValidity" required>
+                                </div>
+                                <div class="col">
+                                    <label>Date Of Birth</label>
+                                    <input type="date" placeholder="Date Of Birth" class="form-control mb-1 form-input"
+                                        ngModel name="dateOfBirth" required>
+
+                                </div>
+                            </div>
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+                                    <input type="text" placeholder="Phone Number" class="form-control mb-1 form-input"
+                                        ngModel name="phoneNumber" required>
+
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="Email" class="form-control mb-1 form-input" ngModel
+                                        name="email" required>
+
+                                </div>
+                            </div>
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+                                    <select #profession class="mb-1 form-input" ngModel name="profession" required>
+                                        <option value="" disabled selected hidden>Profession...</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Worker">Worker</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select #nationality class="mb-1 form-input" ngModel name="nationality" required>
+                                        <option value="" disabled selected hidden>Nationality...</option>
+                                        <option value="Morocco">Morocco</option>
+                                        <option value="France">France</option>
+                                        <option value="Autre">France</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+                                    <select #countryOfAddress class="mb-1 form-input" ngModel name="countryOfAddress"
+                                        required>
+                                        <option value="" disabled selected hidden>Country Of Address...</option>
+                                        <option value="Morocco">Morocco</option>
+                                        <option value="France">France</option>
+                                        <option value="Autre">Autre</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="Address" class="form-control mb-1 form-input"
+                                        ngModel name="address" required>
+
+                                </div>
+                            </div>
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+                                    <input type="text" placeholder="City" class="form-control mb-1 form-input" ngModel
+                                        name="city" required>
+
+                                </div>
+                                <div class="col">
+                                    <select #countryOfIssue class="mb-1 form-input" ngModel name="countryOfIssue"
+                                        required>
+                                        <option value="" disabled selected hidden>Country Of Issue...</option>
+                                        <option value="Morocco">Morocco</option>
+                                        <option value="France">France</option>
+                                        <option value="Autre">Autre</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-buttons">
+
+                            <button color="info" class="w-50 mb-2 button" type="button" (click)="addClient(addForm)"
+                                [disabled]="addForm.invalid" data-bs-dismiss="modal">
+                                Add
+                            </button>
+                            <button type="button " data-bs-dismiss="modal" aria-label="Close" class="button mt-1"
+                                style="width: min-content;">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- update Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="updateModal" data-bs-backdrop="static"
+        data-bs-keyboard="false" aria-labelledby="AddModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="text-center" #updateForm="ngForm" class="add-form">
+                        <!-- <a class="logo  mb-4" data-bs-dismiss="modal"><img src="" style="width:90%" /></a> -->
+                        <p class="form-title mb-1 mt-2 text-center">UPDATE CLIENT</p>
+                        <div class="card-body">
+                            <div class="row align-items-end m-1 g-3">
+                                <input type="hidden" class="form-control" name="id" ngModel="{{clientToEdit?.id}}">
+
+                                <div class="col">
+                                    <select #title class="mb-1 form-input" name="title" ngModel="{{clientToEdit?.title}}"
+                                        required>
+                                        <label>Title</label>
+                                        <option value="" disabled selected hidden>{{clientToEdit?.title}}</option>
+                                        <option value="Mr">Mr</option>
+                                        <option value="Mme">Mme</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="Full Name" class="form-control mb-1 form-input"
+                                        ngModel="{{clientToEdit?.firstName}}" name="firstName" required>
+                                </div>
+                            </div>
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+                                    <label>Identity Validity</label>
+                                    <input type="date" placeholder="Identity Validity"
+                                        class="form-control mb-1 form-input"
+                                        ngModel="{{clientToEdit?.identityValidity}}" name="identityValidity" required>
+
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="Identity Number"
+                                        class="form-control mb-1 form-input" ngModel="{{clientToEdit?.identityNumber}}"
+                                        name="identityNumber" required>
+
+                                </div>
+                            </div>
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+                                    <label>Identity Type</label>
+                                    <select #identityType class="mb-1 form-input"
+                                        ngModel="{{clientToEdit?.identityType}}" name="identityType" required>
+                                        <option value="" disabled selected hidden>{{clientToEdit?.identityType}}
+                                        </option>
+                                        <option value="Cin">Cin</option>
+                                        <option value="Passport">Passport</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label>Date Of Birth</label>
+                                    <input type="date" placeholder="Date Of Birth" class="form-control mb-1 form-input"
+                                        ngModel="{{clientToEdit?.dateOfBirth}}" name="dateOfBirth" required>
+
+                                </div>
+                            </div>
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+                                    <input type="text" placeholder="Phone Number" class="form-control mb-1 form-input"
+                                        ngModel="{{clientToEdit?.phoneNumber}}" name="phoneNumber" required>
+
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="Email" class="form-control mb-1 form-input"
+                                        ngModel="{{clientToEdit?.email}}" name="email" required>
+
+                                </div>
+                            </div>
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+                                    <label>Profession</label>
+
+                                    <select #profession class="mb-1 form-input" ngModel="{{clientToEdit?.profession}}"
+                                        name="profession" required>
+                                        <option value="" disabled selected hidden>{{clientToEdit?.profession}}</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Worker">Worker</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label>Nationality</label>
+
+                                    <select #nationality class="mb-1 form-input" ngModel="{{clientToEdit?.nationality}}"
+                                        name="nationality" required>
+                                        <option value="" disabled selected hidden>{{clientToEdit?.nationality}}</option>
+                                        <option value="Morocco">Morocco</option>
+                                        <option value="France">France</option>
+                                        <option value="Autre">Autre</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+                                    <label>Country Of Address</label>
+
+                                    <select #countryOfAddress class="mb-1 form-input"
+                                        ngModel="{{clientToEdit?.countryOfAddress}}" name="countryOfAddress" required>
+                                        <option value="" disabled selected hidden>{{clientToEdit?.countryOfAddress}}
+                                        </option>
+                                        <option value="Morocco">Morocco</option>
+                                        <option value="France">France</option>
+                                        <option value="Autre">Autre</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="Address" class="form-control mb-1 form-input"
+                                        ngModel="{{clientToEdit?.address}}" name="address" required>
+
+                                </div>
+                            </div>
+                            <div class="row align-items-end m-1 g-3">
+                                <div class="col">
+                                    <input type="text" placeholder="City" class="form-control mb-1 form-input"
+                                        ngModel="{{clientToEdit?.city}}" name="city" required>
+
+                                </div>
+                                <div class="col">
+                                    <label>Country Of Issue</label>
+
+                                    <select #countryOfIssue class="mb-1 form-input"
+                                        ngModel="{{clientToEdit?.countryOfIssue}}" name="countryOfIssue" required>
+                                        <option value="" disabled selected hidden>{{clientToEdit?.countryOfIssue}}
+                                        </option>
+                                        <option value="Morocco">Morocco</option>
+                                        <option value="France">France</option>
+                                        <option value="Autre">Autre</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-buttons">
+                            <button color="info" class="w-50  m-3 button" type="button" (click)="updateClient(updateForm.value)"
+                                [disabled]="updateForm.invalid" data-bs-dismiss="modal">
+                                Update
+                            </button>
+                            <button type="button " data-bs-dismiss="modal" aria-label="Close" class="button mt-1"
+                                style="width: min-content;">Close</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog bg-light" style="border-radius:10px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Agent</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    You are about to delete Agent <strong>{{clientToDelete?.title }}
+                        {{clientToDelete?.firstName}}</strong>
+                    <br>
+                    Are you sure ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="button" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="button btn-danger" (click)="deleteClient(clientToDelete)"
+                        data-bs-dismiss="modal">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

@@ -8,8 +8,9 @@ export interface Agent {
     lastName : string;
     phoneNumber : string;
     email : string;
-    salesPoint: SalesPoint;
-    createdAt ?:Date;
+    salesPoint ?: SalesPoint;
+    salesPointId ?: string;
+    createdAt :Date;
     account ?: Account
 
 }

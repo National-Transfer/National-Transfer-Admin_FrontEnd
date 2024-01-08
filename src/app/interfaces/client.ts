@@ -10,11 +10,16 @@ export interface Client {
     identityNumber :string;
     dateOfBirth :Date;
     profession : string;
+    identityValidity:Date;
     nationality : string;
     countryOfAddress :string;
+    address: string;
     city : string;
     phoneNumber : string;
     email :string;
-    accountResponseDto ?: Account;
+    account ?: Account;
+    createdTime ?: Date;
+    lastUpdatedTime ?: Date;
+
     
 }
