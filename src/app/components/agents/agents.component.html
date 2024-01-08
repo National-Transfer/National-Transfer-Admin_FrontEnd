@@ -12,9 +12,6 @@
         <form class="d-flex">
             <input #search type="search" class="form-control form-input" id="search" placeholder="Search Agents"
                 (keyup.enter)="doSearch(search.value)">
-            <!-- <button class="btn btn-secondary" type="submit" (click)="doSearch(search.value)">
-               Search
-            </button> -->
         </form>
     </div>
     <div class="row">
@@ -38,7 +35,7 @@
                             <th scope="col" style="width: 200px;">Operations</th>
                         </tr>
                     </thead>
-                    @for (agent of agents; track agent.id) {
+                    @for (agent of agentsResponse; track agent.id) {
                     <tbody>
                         <tr>
                             <th scope="row" class="ps-4">
@@ -56,7 +53,7 @@
                             <td style="width: 150px;">{{agent.phoneNumber}}</td>
                             <td style="width: 150px;">{{agent.createdAt}}</td>
                             <td style="width: 150px;"><span
-                                    class="badge badge-soft-success mb-0">{{agent.salesPoint.name}}</span></td>
+                                    class="badge badge-soft-success mb-0">{{agent.salesPoint?.name}}</span></td>
                             <td>
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item">
@@ -173,15 +170,15 @@
                         <input type="text" class="form-control mb-3 form-input" placeholder="First Name" ngModel
                             name="firstName" required />
                         <input type="text" class="form-control mb-3 form-input" placeholder="Last Name" ngModel
-                            name="password" required />
+                            name="lastName" required />
                         <input type="text" class="form-control mb-3 form-input" placeholder="Phone Number" ngModel
                             name="phoneNumber" required>
 
                         <input type="email" class="form-control mb-3 form-input" placeholder="E-mail" ngModel
                             name="email" required />
-                        <select #salespoint class="form-control form-input mb-3" ngModel name="salesPoint" required>
+                        <select #salesPointId class="form-control form-input mb-3" ngModel name="salesPointId">
                             <option value="" disabled selected hidden>SaleaPoint ..</option>
-                            @for (salespoint of salesPoint; track salespoint.id) {
+                            @for (salespoint of salesPointResponse; track salespoint.id) {
                             <option [value]="salespoint.id">
                                 {{salespoint.name}}
                             </option>
@@ -213,17 +210,17 @@
                         <input type="text" class="form-control mb-3 form-input" placeholder="First Name"
                             ngModel="{{agentToEdit?.firstName}}" name="firstName" required />
                         <input type="text" class="form-control mb-3 form-input" placeholder="Last Name"
-                            ngModel="{{agentToEdit?.lastName}}" name="password" required />
+                            ngModel="{{agentToEdit?.lastName}}" name="lastName" required />
                         <input type="text" class="form-control mb-3 form-input" placeholder="Phone Number"
                             ngModel="{{agentToEdit?.phoneNumber}}" name="phoneNumber" required>
 
                         <input type="email" class="form-control mb-3 form-input" placeholder="E-mail"
                             ngModel="{{agentToEdit?.email}}" name="email" required />
                             
-                        <select class="form-control form-input mb-3" ngModel="{{agentToEdit?.salesPoint?.name}}"
-                            name="salesPoint" required>
-                            <option value="" disabled selected hidden>SalesPoint..</option>
-                            @for (salespoint of salesPoint; track salespoint.id) {
+                        <select #salesPointId class="form-control form-input mb-3" ngModel ="{{agentToEdit?.salesPoint?.id}}"
+                            name="salesPointId" required>
+                            <option disabled selected hidden>{{agentToEdit?.salesPoint?.name}}</option>
+                            @for (salespoint of salesPointResponse; track salespoint.id) {
                             <option [value]="salespoint.id">
                                 {{salespoint.name}}
                             </option>
@@ -244,3 +241,4 @@
         </div>
     </div>
 </div>
+

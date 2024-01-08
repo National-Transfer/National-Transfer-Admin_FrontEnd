@@ -8,9 +8,9 @@ export const authInterceptor: HttpInterceptorFn = (
   oktaAuth = inject(OKTA_AUTH)
 ) => {
   let request = req;
-  // const allowedOrigins = ['http://localhost'];
+  const allowedOrigins = ['http://localhost'];
   const authToken = oktaAuth.getAccessToken();
-  request = req.clone({ setHeaders: { Authorization: `Bearer ${authToken}` } });
+  request = req.clone({ setHeaders: { Authorization: `Bearer ${authToken}` ,allowedOrigins:allowedOrigins } });
 
   return next(request);
 };

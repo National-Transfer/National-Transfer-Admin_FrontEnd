@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, tap, catchError, of } from 'rxjs';
 import { SalesPoint } from '../interfaces/sales-point';
+import { environment } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -14,10 +15,9 @@ const httpOptions = {
 })
 export class SalesPointService {
 
-
   private http: HttpClient = inject(HttpClient);
 
-  private readonly apiUrl: string = 'http://agent-service/api/salesPoints';
+  private readonly apiUrl: string = environment.redirectUri + '/agency-service/api/v1/salesPoints';
 
   constructor() { }
 

@@ -37,12 +37,17 @@ export class ClientsComponent {
       this.dataSubject.next(response);
 
       this.clientsResponse = response
-      // this.clientsResponse = response.reverse();
+      this.clientsResponse = response.reverse();
     })
   }
 
   addClient(addForm: NgForm) {
-    this.clientService.saveClient$(addForm.value).subscribe( (response : Client)=> {
+    let client : Client = addForm.value;
+    client.title = client.title + " "+ client.firstName.split(' ')[0];
+
+    console.log(client);
+    
+    this.clientService.saveClient$(client).subscribe( (response : Client)=> {
       this.dataSubject.next([response, ...this.dataSubject.value]);
       this.clientsResponse = this.dataSubject.value;
     });
@@ -81,13 +86,13 @@ export class ClientsComponent {
     );
   }
 
-  // doSearch(value: string) {
-  //   console.log(`value=${value}`);
+  doSearch(value: string) {
+    console.log(`value=${value}`);
 
-  //   this.clientService.filterClients$(value, this.dataSubject.value).subscribe((response : Client[]) =>{
-  //     this.clientsResponse = response;
-  //   })
-  // }
+    this.clientService.filterClients$(value, this.dataSubject.value).subscribe((response : Client[]) =>{
+      this.clientsResponse = response;
+    })
+  }
 
 
   onOpenModal(client: any, mode: string) {

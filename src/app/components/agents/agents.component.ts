@@ -9,6 +9,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { SalesPoint } from '../../interfaces/sales-point';
 import { AgentService } from '../../services/agent.service';
+import { SalesPointService } from '../../services/sales-point.service';
 
 
 @Component({
@@ -27,17 +28,13 @@ export class AgentsComponent implements OnInit{
   public dataSubject = new BehaviorSubject<Agent[]>([]);
 
   private agentService = inject(AgentService);
+  private salespointService = inject(SalesPointService);
+
 
   agentsResponse !: Agent[];
 
-  salesPoint : SalesPoint[] = [{name : 'wafacash', phoneNumber : '073934934930', address: 'Marrakech', dailyTransferLimit: 50000, createdAt:new Date() }];
+  salesPointResponse !: SalesPoint[]; 
 
-  agents : Agent[] = [
-    {id:'1', firstName : 'Reda', lastName:'Himmi', email:'reda@mail.com', phoneNumber: '0616061968', salesPoint: this.salesPoint[0], createdAt: new Date()},
-    {id:'2', firstName : 'Yahya', lastName:'Boujrah', email:'yahya@mail.com', phoneNumber: '0616061968', salesPoint: this.salesPoint[0], createdAt: new Date()},
-    {id:'3', firstName : 'Yassmine', lastName:'Hsaini', email:'yassmine@mail.com', phoneNumber: '0616061968', salesPoint: this.salesPoint[0], createdAt: new Date()}
-
-  ] 
   agentToEdit !: Agent;
   agentToDelete !: Agent
   
@@ -46,12 +43,23 @@ export class AgentsComponent implements OnInit{
       this.dataSubject.next(response);
 
       this.agentsResponse = response
+      this.agentsResponse = response.reverse();
+    })
+
+    this.salespointService.getAllSalesPoints$.subscribe( (response : SalesPoint[]) => {
+
+      this.salesPointResponse = response
       // this.agentsResponse = response.reverse();
     })
   }
 
   addAgent(addForm: NgForm) {
-    this.agentService.saveAgent$(addForm.value).subscribe( (response : Agent)=> {
+    console.log(addForm.value);
+    
+    let agent : Agent  = addForm.value;
+    agent.createdAt = new Date();
+
+    this.agentService.saveAgent$(agent).subscribe( (response : Agent)=> {
       this.dataSubject.next([response, ...this.dataSubject.value]);
       this.agentsResponse = this.dataSubject.value;
     });
@@ -59,7 +67,7 @@ export class AgentsComponent implements OnInit{
   }
 
   deleteAgent(agent: Agent): void {
-    console.log(agent)
+    console.log( "delete " + agent)
     this.agentService.deleteAgent$(agent.id as string).subscribe(() => {
 
       const updatedAgents = this.dataSubject.value.filter(ag => ag.id !== agent.id);
@@ -70,6 +78,8 @@ export class AgentsComponent implements OnInit{
   }
 
   updateAgent(agent: Agent) {
+    console.log("update --- "+  JSON.stringify(agent))
+
     this.agentService.updateAgent$(agent).subscribe(
       (response : Agent) => {
         if (response) {
