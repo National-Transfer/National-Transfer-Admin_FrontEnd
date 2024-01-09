@@ -5,6 +5,7 @@ import { HomeComponent } from "./home/home.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { SalesPointsComponent } from "./sales-points/sales-points.component";
 import { NavigationComponent } from "./navigation/navigation.component";
+import { TransfersComponent } from "./transfers/transfers.component";
 
 export const APP_ROUTES: Route[] = [
 
@@ -22,7 +23,7 @@ export const APP_ROUTES: Route[] = [
 
             },
             {
-                path: 'transfers', component: AgentsComponent
+                path: 'transfers', component: TransfersComponent
             },
             {
                 path: 'profile', component: ProfileComponent
