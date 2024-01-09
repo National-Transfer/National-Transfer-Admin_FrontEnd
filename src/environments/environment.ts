@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  redirectUri: 'http://localhost:8091',
+  redirectUri: 'https://bank.redahimmi.tech',
 };
