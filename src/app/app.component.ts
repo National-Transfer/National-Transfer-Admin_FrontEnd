@@ -5,14 +5,13 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
 import { AuthState } from '@okta/okta-auth-js';
 import { Observable, filter, map } from 'rxjs';
-import { TableComponent } from "./components/table/table.component";
 
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [CommonModule, RouterOutlet, SidebarComponent, TableComponent]
+    imports: [CommonModule, RouterOutlet, SidebarComponent]
 })
 export class AppComponent {
 

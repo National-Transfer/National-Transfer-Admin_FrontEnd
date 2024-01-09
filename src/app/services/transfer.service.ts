@@ -25,7 +25,7 @@ export class TransferService {
 
   private http: HttpClient = inject(HttpClient);
 
-  private readonly apiUrl: string = environment.redirectUri + 'transfer-service/api/v1/transfer';
+  private readonly apiUrl: string = environment.redirectUri + '/transfer-service/api/v1/transfer';
 
   constructor() { }
 

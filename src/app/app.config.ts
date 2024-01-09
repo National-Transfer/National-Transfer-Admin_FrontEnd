@@ -15,7 +15,7 @@ import { environment } from '../environments/environment.development';
 const oktaAuth = new OktaAuth({
   issuer: 'https://dev-12637298.okta.com/oauth2/default',
   clientId: '0oae6q7wvhoY28oYV5d7',
-  redirectUri: environment.redirectUri + '/login/callback',
+  redirectUri: window.location.origin + '/login/callback',
   responseType: ['token', 'id_token'],
   pkce: true,
 });

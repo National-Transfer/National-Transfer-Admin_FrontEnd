@@ -7,8 +7,8 @@
                     <img src="../../../assets/agent1.png" alt="Agent">
                     </div>
                     <div class="card-info">
-                        <h5 class="user-name">Admin  name</h5>
-                        <h6 class="user-email text-center">admin email</h6>
+                        <h5 class="user-name">Admin  {{claims[1]?.value}}</h5>
+                        <h6 class="user-email text-center">admin {{claims[3]?.value}}</h6>
                     </div>
                     
                 </div>
@@ -23,20 +23,20 @@
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
-                                <label for="fullName">First Name</label>
-                                <p>first name</p>
+                                <label for="fullName">Full Name</label>
+                                <p>{{claims[1]?.value}}</p>
                             </div>
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                                 <label for="fullName">Last Name</label>
-                                <p>last name</p>
+                                <p>{{claims[1].value}}</p>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                                 <label for="phone">Phone</label>
-                                <p>0616061968</p>
+                                <p></p>
                             </div>
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">

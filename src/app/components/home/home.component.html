@@ -4,7 +4,7 @@
     <div class="card-single">
       <div class="card-header">
         <a href="">Today's Clients</a>
-        <span>5000</span>
+        <span>0</span>
       </div>
 
       <div>
@@ -15,7 +15,7 @@
     <div class="card-single">
       <div class="card-header">
         <a href="">Today's Agents</a>
-        <span>40</span>
+        <span>2</span>
       </div>
       <div>
         <fa-icon class="icon" [icon]="faUsersLine"></fa-icon>
@@ -25,7 +25,7 @@
     <div class="card-single">
       <div class="card-header">
         <a href="">New Transfers</a>
-        <span>90</span>
+        <span>1</span>
       </div>
       <div>
         <fa-icon class="icon" [icon]="faArrowRightArrowLeft"></fa-icon>
@@ -33,6 +33,19 @@
     </div>
   </div>
 
-  <canvas baseChart [data]="datasets" [type]="'bar'"> </canvas>
+  <div class="charts">
+    <div class="chart-1">
+      <h3>Agents & Clients</h3>
+      <canvas baseChart [data]="datasets" [type]="'bar'"> </canvas>
+    </div>
+    <div class="chart-2 b       ">
+      <h3>Transfers</h3>
+
+      <canvas baseChart [data]="transfers" [type]="'bar'"> </canvas>
+
+    </div>
+
+
+  </div>
 
 </div>

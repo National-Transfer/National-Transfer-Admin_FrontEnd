@@ -17,7 +17,7 @@ export class SalesPointService {
 
   private http: HttpClient = inject(HttpClient);
 
-  private readonly apiUrl: string = 'http://localhost:8091/agency-service/api/v1/salesPoints';
+  private readonly apiUrl: string = environment.redirectUri + '/agency-service/api/v1/salesPoints';
 
   constructor() { }
 

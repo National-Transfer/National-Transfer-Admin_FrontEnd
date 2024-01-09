@@ -1,58 +1,68 @@
-<div class="container subcontainer" id="main-container">
+<div class=" container subcontainer" id="main-container">
     <div class="row">
           <div class="col-12 mb-3 mb-lg-5">
-            <button type="button" class="button mb-4">
+            <!-- <button type="button" class="button mb-4">
                 Issue Transfer
-            </button>   
-            <div class="overflow-hidden card table-nowrap table-card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Transfers</h5>
-                    <a href="#!" class="btn btn-light btn-sm">View All</a>
-                </div>
-                <div class="table-responsive">
-                    <table class="table mb-0">
-                        <thead class="small text-uppercase bg-body text-muted">
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Country</th>
-                                <th>Payment method</th>
-                                <th>Created Date</th>
-                                <th class="text-end">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr class="align-middle">
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div>
-                                            <div class="h6 mb-0 lh-1">Eliana Stout</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>elianastoutmail.com</td>
-                                <td>
-                                    <span class="d-inline-block align-middle">Usa</span>
-                                </td>
-                                <td><span>****1010</span></td>
-                                <td>01 June, 2021</td>
-                                <td class="text-end">
-                                    <div class="drodown">
-                                        <a data-bs-toggle="dropdown" href="#" class="btn p-1">
-                                            <i class="fa fa-bars" aria-hidden="true"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a href="#!" class="dropdown-item">View Details</a>
-                                            <a href="#!" class="dropdown-item">Delete user</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            </button>    -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table project-list-table table-nowrap align-middle table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="ps-4" style="width: 50px;">
+                                        <div class="form-check font-size-16"><input type="checkbox" class="form-check-input"
+                                                id="contacusercheck" /><label class="form-check-label"
+                                                for="contacusercheck"></label></div>
+                                    </th>
+                                    <th scope="col">Reference</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Transfer State</th>
+                                    <th scope="col">Expiration date</th>
+                                </tr>
+                            </thead>
+                            @for (transfer of transfers; track transfer.id) {
+                            <tbody>
+                                <tr>
+                                    <th scope="row" class="ps-4">
+                                        <div class="form-check font-size-16"><input type="checkbox" class="form-check-input"
+                                                id="contacusercheck1" /><label class="form-check-label"
+                                                for="contacusercheck1"></label></div>
+                                    </th>
+                                    <td style="width: 200px;">
+                                        <!-- <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""
+                                                class="avatar-sm rounded-circle me-2" /> -->
+                                        {{transfer.reference}}
+                                    </td>
+                                    <td style="width: 150px;">{{transfer.transferAmount}}</td>
+                                    <td style="width: 150px;">{{transfer.transferState}}</td>
+                                    <td style="width: 150px;">{{transfer.expirationDate}} 
+                                        <!-- <ul class="list-inline mb-0">
+                                            <li class="list-inline-item">
+                                                <a title="View" class="px-2 text-primary"
+                                                (click)="onOpenModal(agent, 'view')"
+                                                ><fa-icon [icon]="faEye"></fa-icon></a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a title="Delete" class="px-2 text-danger"
+                                                    (click)="onOpenModal(agent, 'delete')">
+                                                    <fa-icon [icon]="faTrash"></fa-icon></a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a title="edit" class="px-2 text-success"
+                                                    (click)="onOpenModal(agent, 'edit')"><fa-icon
+                                                        [icon]="faPenToSquare"></fa-icon></a>
+                                            </li>
+                                        </ul> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                            }
+                        </table>
+                    </div>
                 </div>
             </div>
+          
         </div>
     </div>
 </div>

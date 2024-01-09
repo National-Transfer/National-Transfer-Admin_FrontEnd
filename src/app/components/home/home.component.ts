@@ -21,7 +21,17 @@ export class HomeComponent {
 
   datasets: ChartData <'bar', {key: string, value: number} []> = {
     datasets: [{
-      data: [{key: 'Sales', value: 20}, {key: 'Revenue', value: 10}],
+      data: [{key: 'Clients', value: 2}, {key: 'Agents', value: 1}],
+      parsing: {
+        xAxisKey: 'key',
+        yAxisKey: 'value'
+      }
+    }],
+  };
+
+  transfers: ChartData <'bar', {key: string, value: number} []> = {
+    datasets: [{
+      data: [{key: 'Transfers', value: 2}],
       parsing: {
         xAxisKey: 'key',
         yAxisKey: 'value'
@@ -37,6 +47,7 @@ export class HomeComponent {
       filter((authState: AuthState) => !!authState && !!authState.isAuthenticated),
       map((authState: AuthState) => authState.idToken?.claims.name ?? '')
     );
+    
     
   }
   
